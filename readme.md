@@ -19,7 +19,7 @@ datos H2 y permite realizar operaciones CRUD, realizar backups y trabajar con da
 
 ## Instalación y Configuración
 
-### [!IMPORTANT] Requisitos
+### Requisitos
 
 - Java 21+
 - Base de datos H2
