@@ -83,15 +83,15 @@ El proyecto gestiona una colección de figuras con los siguientes atributos:
 
 Tanto en la versión asíncrona como en la versión reactiva, se han implementado las siguientes consultas:
 
-- **Figura más cara**: Devuelve la figura con el precio más alto.
-- **Media de precio de todas las figuras**: Calcula el precio promedio de todas las figuras en la base de datos.
-- **Figuras agrupadas por modelo**: Agrupa las figuras por su modelo (`MARVEL`, `DISNEY`, `ANIME`, etc.).
-- **Número de figuras por modelo**: Devuelve el número total de figuras para cada modelo.
-- **Precio medio de las figuras MARVEL**: Calcula el precio promedio de las figuras del modelo `MARVEL`.
-- **Precio medio de las figuras agrupadas por modelo**: Calcula el precio promedio de las figuras agrupadas por modelo.
-- **Figuras lanzadas en 2023**: Devuelve todas las figuras lanzadas durante el año 2023.
-- **Número de figuras de Naruto**: Cuenta cuántas figuras de "Naruto" están en la base de datos.
-- **Listado de figuras de Naruto**: Devuelve un listado de las figuras con el nombre "Naruto".
+- **Figura más cara.**
+- **Media de precio de Figuras.**
+- **Figuras agrupados por modelos.**
+- **Número de Figuras por modelos.**
+- **Precio medio de las Figuras de Marvel.**
+- **Precio medio de las figuras agrupadas por modelos.**
+- **Figuras que han sido lanzados en 2023.**
+- **Número de Figuras de Naruto.**
+- **Listado de Figuras de Naruto.**
 
 ## Pruebas Unitarias
 > [!WARNING]
