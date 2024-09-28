@@ -88,6 +88,7 @@ Tanto en la versión asíncrona como en la versión reactiva, se han implementad
 - **Figuras agrupadas por modelo**: Agrupa las figuras por su modelo (`MARVEL`, `DISNEY`, `ANIME`, etc.).
 - **Precio medio de las figuras agrupadas por modelo**: Calcula el precio promedio de las figuras agrupadas por modelo.
 
+## Pruebas Unitarias
 > [!WARNING]
 > Pruebas Unitarias
 > Se han implementado pruebas unitarias con **JUnit** y **Mockito** para las siguientes funcionalidades:
