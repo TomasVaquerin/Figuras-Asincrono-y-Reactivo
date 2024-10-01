@@ -1,4 +1,4 @@
-package com.asincrono.dbReactivo;
+package com.asincrono.dbasincrono;
 
 import io.r2dbc.spi.ConnectionFactories;
 import io.r2dbc.spi.ConnectionFactory;

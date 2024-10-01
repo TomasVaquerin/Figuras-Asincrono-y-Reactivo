@@ -1,4 +1,4 @@
-package com.asincrono.dbReactivo;
+package com.asincrono.dbasincrono;
 
 
 import io.r2dbc.spi.ConnectionFactory;
@@ -36,7 +36,7 @@ public class DatabaseInitializer {
         return Mono.from(connectionFactory.create())
                 .flatMap(connection -> {
                     return Mono.from(connection.createStatement(
-                                    "DROP TABLE IF EXISTS tiempo_localidades"
+                                    "DROP TABLE IF EXISTS figuras"
                             ).execute())
                             .doFinally(signal -> connection.close());
                 }).then();
