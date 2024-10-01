@@ -1,4 +1,4 @@
-package com.asincrono.dbasincrono;
+package com.reactivo.dbreactivo;
 
 
 import io.r2dbc.spi.ConnectionFactory;

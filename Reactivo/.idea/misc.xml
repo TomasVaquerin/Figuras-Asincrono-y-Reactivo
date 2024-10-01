@@ -4,9 +4,6 @@
     <execution />
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="FormatOnSaveOptions">
-    <option name="myRunOnSave" value="true" />
-  </component>
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$" />
   </component>

@@ -1,4 +1,4 @@
-package com.asincrono.dbasincrono;
+package com.reactivo.dbreactivo;
 
 import io.r2dbc.spi.ConnectionFactories;
 import io.r2dbc.spi.ConnectionFactory;
@@ -17,14 +17,14 @@ public class DatabaseConfig {
 
     private static ConnectionFactory connectionFactory;
 
-    public static synchronized DatabaseConfig getInstance(){
-        if(instance == null){
+    public static synchronized DatabaseConfig getInstance() {
+        if (instance == null) {
             instance = new DatabaseConfig();
         }
         return instance;
     }
 
-    private DatabaseConfig(){
+    private DatabaseConfig() {
         Properties properties = new Properties();
         try (InputStream input = DatabaseConfig.class.getClassLoader().getResourceAsStream("database.properties")) {
             if (input == null) {
@@ -46,7 +46,6 @@ public class DatabaseConfig {
     public static ConnectionFactory getConnectionFactory() {
         return connectionFactory;
     }
-
 
 
 }
