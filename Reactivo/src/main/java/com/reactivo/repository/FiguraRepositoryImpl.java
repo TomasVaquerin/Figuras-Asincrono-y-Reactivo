@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class FiguraRepositoryImpl implements FiguraRepository {
@@ -69,8 +70,8 @@ public class FiguraRepositoryImpl implements FiguraRepository {
                                         row.get("modelo", Modelo.class),
                                         row.get("precio", Double.class),
                                         row.get("fecha_lanzamiento", java.time.LocalDate.class),
-                                        row.get("created_at", java.time.LocalDateTime.class),
-                                        row.get("updated_at", java.time.LocalDateTime.class)
+                                        row.get("created_at", LocalDateTime.class),
+                                        row.get("updated_at", LocalDateTime.class)
                                 )
                             )))
                             .switchIfEmpty(Mono.empty())
@@ -81,7 +82,33 @@ public class FiguraRepositoryImpl implements FiguraRepository {
 
     @Override
     public Mono<Figura> save(Figura object) {
-        return null;
+        logger.debug("(REPO)Guardando la figura: " + object.getNombre());
+        String query = "INSERT INTO figuras (cod, my_id, nombre, modelo, precio, fecha_lanzamiento, created_at, updated_at)"
+        + " VALUES ($1, $2, $3, $4, $5, $6, $7, $8)";
+        return Mono.from(connectionFactory.create())
+                .flatMap(connection ->
+                    Mono.from(connection.createStatement(query)
+                                    .bind("$1", object.getCod().toString())
+                                    .bind("$2", object.getMyId())
+                                    .bind("$3", object.getNombre())
+                                    .bind("$4", object.getModelo())
+                                    .bind("$5", object.getPrecio())
+                                    .bind("$6", object.getFechaLanzamiento())
+                                    .bind("$7", object.getCreatedAt())
+                                    .bind("$8", object.getUpdatedAt())
+                                    .execute())
+                            .flatMap(result ->
+                                    Mono.from(result.getRowsUpdated())
+                                            .flatMap(rowsUpdated -> {
+                                                if (rowsUpdated > 0) {
+                                                    return Mono.just(object);
+                                                } else {
+                                                    return Mono.empty();
+                                                }
+                                            })
+                            )
+                            .doFinally(signal -> connection.close())
+                );
     }
 
     @Override
@@ -96,7 +123,31 @@ public class FiguraRepositoryImpl implements FiguraRepository {
 
     @Override
     public Flux<Figura> findAllByModelo(Modelo modelo) {
-        return null;
+        logger.debug("(REPO) Buscando todas las figuras con modelo: " + modelo);
+        String query = "SELECT * FROM figuras WHERE modelo = $1";
+
+        return Mono.from(connectionFactory.create())
+                .flatMapMany(connection ->
+                        Flux.from(connection.createStatement(query)
+                                .bind("$1", modelo)
+                                .execute())
+                                .flatMap(result ->
+                                        Flux.from(result.map((row, rowMetadata) ->
+                                        new Figura(
+                                                row.get("id", Long.class),
+                                                UUID.fromString(row.get("cod", String.class)),
+                                                row.get("my_id", Long.class),
+                                                row.get("nombre", String.class),
+                                                row.get("modelo", Modelo.class),
+                                                row.get("precio", Double.class),
+                                                row.get("fecha_lanzamiento", java.time.LocalDate.class),
+                                                row.get("created_at", LocalDateTime.class),
+                                                row.get("updated_at", LocalDateTime.class)
+                                        )
+                                )))
+                                .switchIfEmpty(Flux.empty())
+                                .doFinally(signal -> connection.close())
+                );
     }
 }
 
