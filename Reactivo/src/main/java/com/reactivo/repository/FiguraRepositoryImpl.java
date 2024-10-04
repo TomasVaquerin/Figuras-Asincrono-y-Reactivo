@@ -113,12 +113,55 @@ public class FiguraRepositoryImpl implements FiguraRepository {
 
     @Override
     public Mono<Figura> update(Long aLong, Figura object) {
-        return null;
+        logger.debug("(REPO)Actualizando la figura con id: " + aLong);
+        String query = "UPDATE figuras SET cod = $1, my_id = $2, nombre = $3, modelo = $4, precio = $5, fecha_lanzamiento = $6, updated_at = $7 WHERE id = $8";
+
+        return findById(aLong)
+                .flatMap(figura -> {
+                    return Mono.from(connectionFactory.create())
+                            .flatMap(connection ->
+                                    Mono.from(connection.createStatement(query)
+                                            .bind("$1", object.getCod().toString())
+                                            .bind("$2", object.getMyId())
+                                            .bind("$3", object.getNombre())
+                                            .bind("$4", object.getModelo())
+                                            .bind("$5", object.getPrecio())
+                                            .bind("$6", object.getFechaLanzamiento())
+                                            .bind("$7", object.getUpdatedAt())
+                                            .bind("$8", aLong)
+                                            .execute())
+                                            .flatMap(result -> Mono.from(result.getRowsUpdated())
+                                                    .flatMap(rowsUpdated -> {
+                                                        if (rowsUpdated > 0) {
+                                                            return Mono.just(object);
+                                                        } else {
+                                                            return Mono.empty();
+                                                        }
+                                                    })
+                                            )
+                                            .doFinally(signal -> connection.close())
+                            );
+                })
+                .switchIfEmpty(Mono.empty());
     }
 
     @Override
     public Mono<Void> delete(Long aLong) {
-        return null;
+        logger.debug("(REPO)Eliminando la figura con id: " + aLong);
+        String query = "DELETE FROM figuras WHERE id = $1";
+
+        return findById(aLong)
+                .flatMap(figura -> {
+                    return Mono.from(connectionFactory.create())
+                            .flatMap(connection ->
+                                    Mono.from(connection.createStatement(query)
+                                            .bind("$1", aLong)
+                                            .execute())
+                                            .flatMap(result -> Mono.empty())
+                                            .doFinally(signal -> connection.close())
+                            ).then();
+                })
+                .switchIfEmpty(Mono.empty());
     }
 
     @Override
